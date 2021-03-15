@@ -1,3 +1,4 @@
+
 const initialState = {
     posts: []
 };
@@ -5,9 +6,9 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'FETCH_ALL':
-            return state;
+            return action.payload;
         case 'CREATE':
-            return state;
+            return {...state, posts: state.posts.concat(action.payload)};
         default:
             break;
     }

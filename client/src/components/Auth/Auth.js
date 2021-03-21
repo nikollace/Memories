@@ -8,20 +8,32 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Input from './Input'
 import Icon from './icon'
 
+import { signin, signup } from '../../actions/auth'
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
+
 const Auth = () => {
     const classes = useStyles();
     const [showPassord, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
+    const [formData, setformData] = useState(initialState);
     const history = useHistory();
     //const isSignup = false;
 
     const dispatch = useDispatch();
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if(isSignup){
+            //history saljemo da bismo se navigirali kada se dispatch-uje akcija
+            dispatch(signup(formData, history));
+        } else {
+            dispatch(signin(formData, history));
+        }
     };
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setformData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleShowPassword = () => setShowPassword((previousShowPassword) => !previousShowPassword);
@@ -64,8 +76,8 @@ const Auth = () => {
                         {
                             isSignup && (
                                 <>
-                                    <Input name="firstname" label="First Name" handleChange={handleChange} autoFocus half />
-                                    <Input name="firstname" label="First Name" handleChange={handleChange} half />
+                                    <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
+                                    <Input name="lastName" label="Last Name" handleChange={handleChange} half />
                                 </>
                             )
                         }

@@ -61,7 +61,25 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
     const { id } = req.params;
 
+    //u auth.js smo izvukli req.userId
+    //a u routes smo prosledili auth, likePost
+    //tako da ga ovde mozemo iskoristiti
+    if(!req.userId) return res.json({ message: 'Unauthenticated' });
+
     const post = await PostMessage.findById(id);
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+
+    //proveravamo da li je ta neka osoba vec lajkovala post
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+
+    if(index === -1) {
+        //like the post
+        post.likes.push(req.userId);
+    } else {
+        //dislike
+        post.likes = post.likes.filter((id) => id !== String(req.userId));
+    }
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
     res.json(updatedPost);
 }

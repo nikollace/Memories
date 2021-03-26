@@ -6,7 +6,7 @@ const API = axios.create({ baseURL: 'http://localhost:5000' });
 //saljemo na backend token za svaki API request
 API.interceptors.request.use((req) => {
     if(localStorage.getItem('profile')) {
-        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile').token)}`;
+        req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
     }
 
     return req;

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 const auth = async (req, res, next) => {
     try {
         //prihvatamo token poslat sa frontenda interceptors itd...
-        const token = req.headers.Authorization.split(" ")[1];
+        const token = req.headers.authorization.split(" ")[1];
         const isCustomAuth = token.length < 500;
 
         let decodedData;
@@ -24,7 +24,7 @@ const auth = async (req, res, next) => {
         }
 
         next();
-    } catch (error) {
+    } catch (error){
         console.log(error);
     }
 }

@@ -20,7 +20,7 @@ export const createPost = async (req, res) => {
     //pass as a parameter to PostMessage object(class)
     const post = req.body;
 
-    const newPost = new PostMessage(post);
+    const newPost = new PostMessage({...post, creator: req.userId, createdAt: new Date().toISOString()});
     try {
         await newPost.save();
 
